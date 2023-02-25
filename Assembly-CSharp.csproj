@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Projeto\Scripts\CameraController.cs" />
     <Compile Include="Assets\Projeto\Scripts\GameController.cs" />
+    <Compile Include="Assets\Projeto\Scripts\IASlug.cs" />
     <Compile Include="Assets\Projeto\Scripts\PlayerController.cs" />
   </ItemGroup>
   <ItemGroup>
