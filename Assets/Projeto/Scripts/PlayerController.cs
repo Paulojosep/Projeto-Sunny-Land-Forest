@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    private Animator playerAnimator;
+    private Rigidbody2D playerRigidbody2d;
+    public Transform groundCheck;
+
+    public bool isGround = false;
+    public bool facingRigth = true;
+
+    public float speed;
+    public float touchRun = 0.0f;
+
+    //Pulo
+    public bool jump = false;
+    public int numberJumps = 0;
+    public int maxJump = 2;
+    public float jumpForce;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        playerAnimator = GetComponent<Animator>();
+        playerRigidbody2d = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        isGround = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+        playerAnimator.SetBool("IsGrounded", isGround);
+
+        Debug.Log(isGround.ToString());
+
+        touchRun = Input.GetAxisRaw("Horizontal");
+        Debug.Log(touchRun.ToString());
+
+        if (Input.GetButtonDown("Jump")) // tecla de spaço
+        {
+            jump = true;
+        }
+
+        SetaMovimentos();
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer(touchRun);
+
+        if (jump) // jump for true
+        {
+            JumpPlayer();
+        }
+    }
+
+    void JumpPlayer()
+    {
+        if (isGround)
+        {
+            numberJumps = 0;
+        }
+
+        if (isGround || numberJumps < maxJump)
+        {
+            playerRigidbody2d.AddForce(new Vector2(0f, jumpForce));
+            isGround = false;
+            numberJumps++;
+        }
+        jump = false;
+    }
+
+    void Flip()
+    {
+        facingRigth = !facingRigth;
+        //Vector3 theScale = transform.localScale;
+        //theScale.x *= -1; // 1 ou -1
+
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+
+    void MovePlayer(float movimentoHorizontal)
+    {
+        playerRigidbody2d.velocity = new Vector2(movimentoHorizontal * speed, playerRigidbody2d.velocity.y);
+
+        if(movimentoHorizontal < 0 && facingRigth || (movimentoHorizontal > 0 && !facingRigth))
+        {
+            Flip();
+        }
+    }
+
+    void SetaMovimentos()
+    {
+        playerAnimator.SetBool("Walk", playerRigidbody2d.velocity.x != 0 && isGround); // true
+        playerAnimator.SetBool("Jump", !isGround);
+    }
+}
