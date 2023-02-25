@@ -114,6 +114,16 @@ public class PlayerController : MonoBehaviour
                 _gameController.Pontuacao(1);
                 Destroy(collision.gameObject);
                 break;
+            case "Enemy":
+
+                //Adiciona força ao pulo
+                Rigidbody2D rigidbody2D = GetComponentInParent<Rigidbody2D>();
+                rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0);
+                rigidbody2D.AddForce(new Vector2(0, 900));
+
+                // Destroi inimigo
+                Destroy(collision.gameObject);
+                break;
         }
     }
 }
