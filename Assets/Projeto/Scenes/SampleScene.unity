@@ -16740,6 +16740,7 @@ MonoBehaviour:
   numberJumps: 0
   maxJump: 2
   jumpForce: 600
+  fxPulo: {fileID: 8300000, guid: 8fbe514a9cf4daf4bb68b478ed1feae2, type: 3}
 --- !u!1 &1602500784
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     private GameController _gameController;
 
+    public AudioClip fxPulo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,6 +74,9 @@ public class PlayerController : MonoBehaviour
             playerRigidbody2d.AddForce(new Vector2(0f, jumpForce));
             isGround = false;
             numberJumps++;
+
+            // Som da coleta da cenoura
+            _gameController.fxGame.PlayOneShot(fxPulo);
         }
         jump = false;
     }
