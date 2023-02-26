@@ -7,9 +7,11 @@ public class GameController : MonoBehaviour
 {
     private int score;
     public Text txtScore;
+    public GameObject hitPrefab;
 
     public AudioSource fxGame;
     public AudioClip fxCenouraColetada;
+    public AudioClip fxExplosao;
     
     public void Pontuacao(int qtdPontos)
     {

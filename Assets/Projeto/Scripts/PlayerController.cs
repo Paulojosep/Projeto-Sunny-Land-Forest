@@ -115,11 +115,17 @@ public class PlayerController : MonoBehaviour
                 Destroy(collision.gameObject);
                 break;
             case "Enemy":
+                //Instanciar a animação da explosão
+                GameObject tempExplosao = Instantiate(_gameController.hitPrefab, transform.position, transform.localRotation);
+                Destroy(tempExplosao, 0.5f);
 
                 //Adiciona força ao pulo
                 Rigidbody2D rigidbody2D = GetComponentInParent<Rigidbody2D>();
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0);
                 rigidbody2D.AddForce(new Vector2(0, 900));
+
+                // Som pulo
+                _gameController.fxGame.PlayOneShot(_gameController.fxExplosao);
 
                 // Destroi inimigo
                 Destroy(collision.gameObject);
