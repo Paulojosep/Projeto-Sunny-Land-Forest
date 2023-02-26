@@ -3,10 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Cena
+using UnityEngine.SceneManagement;
+
 public class PlayerController : MonoBehaviour
 {
     private Animator playerAnimator;
     private Rigidbody2D playerRigidbody2d;
+    private SpriteRenderer spritePlayer;
+    private bool playerInvensivel;
+
+    public GameObject PlayerDie;
+
     public Transform groundCheck;
 
     public bool isGround = false;
@@ -14,6 +22,10 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
     public float touchRun = 0.0f;
+
+    public int vidas = 3;
+    public Color hitColor;
+    public Color noHitColor;
 
     //Pulo
     public bool jump = false;
@@ -31,6 +43,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         playerRigidbody2d = GetComponent<Rigidbody2D>();
         _gameController = FindObjectOfType(typeof(GameController)) as GameController;
+        spritePlayer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -131,5 +144,59 @@ public class PlayerController : MonoBehaviour
                 Destroy(collision.gameObject);
                 break;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Enemy":
+                Hurt();
+                break;
+        }
+    }
+
+    void Hurt()
+    {
+        if (!playerInvensivel)
+        {
+            playerInvensivel = true;
+            vidas--;
+            StartCoroutine("Dano");
+            _gameController.BarraVida(vidas);
+            
+            if(vidas < 1)
+            {
+                GameObject pDieTemp = Instantiate(PlayerDie, transform.position, Quaternion.identity);
+                Rigidbody2D rbDie = pDieTemp.GetComponent<Rigidbody2D>();
+                rbDie.AddForce(new Vector2(150f, 500f));
+                _gameController.fxGame.PlayOneShot(_gameController.fxDie);
+
+                Invoke("CarregarJogo", 4f);
+                gameObject.SetActive(false);
+            }
+        }
+    }
+
+    void CarregarJogo()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    IEnumerator Dano()
+    {
+        spritePlayer.color = noHitColor;
+        yield return new WaitForSeconds(0.1f);
+
+        for (float i = 0; i < 1; i += 0.1f)
+        {
+            spritePlayer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            spritePlayer.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        spritePlayer.color = Color.white;
+        playerInvensivel = false;
     }
 }

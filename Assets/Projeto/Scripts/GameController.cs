@@ -9,9 +9,13 @@ public class GameController : MonoBehaviour
     public Text txtScore;
     public GameObject hitPrefab;
 
+    public Sprite[] imagensVida;
+    public Image barraVida;
+
     public AudioSource fxGame;
     public AudioClip fxCenouraColetada;
     public AudioClip fxExplosao;
+    public AudioClip fxDie;
     
     public void Pontuacao(int qtdPontos)
     {
@@ -20,5 +24,10 @@ public class GameController : MonoBehaviour
 
         // Som da coleta da cenoura
         fxGame.PlayOneShot(fxCenouraColetada);
+    }
+
+    public void BarraVida(int healthVida)
+    {
+        barraVida.sprite = imagensVida[healthVida];
     }
 }
