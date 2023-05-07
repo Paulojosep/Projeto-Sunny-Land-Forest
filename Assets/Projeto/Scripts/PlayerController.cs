@@ -150,8 +150,22 @@ public class PlayerController : MonoBehaviour
     {
         switch (collision.gameObject.tag)
         {
+            case "Plataforma":
+                this.transform.parent = collision.transform;
+                break;
+
             case "Enemy":
                 Hurt();
+                break;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Plataforma":
+                this.transform.parent = null;
                 break;
         }
     }
