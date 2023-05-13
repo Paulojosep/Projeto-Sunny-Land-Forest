@@ -64,6 +64,12 @@ public class PlayerController : MonoBehaviour
             jump = true;
         }
 
+        if (Input.GetButtonDown("Cancel"))
+        {
+            Debug.Log("Sair");
+            Invoke("SairJogo", 1f);
+        }
+
         SetaMovimentos();
     }
 
@@ -206,6 +212,11 @@ public class PlayerController : MonoBehaviour
     void CarregarJogo()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    void SairJogo()
+    {
+        SceneManager.LoadScene(0);
     }
 
     IEnumerator Dano()

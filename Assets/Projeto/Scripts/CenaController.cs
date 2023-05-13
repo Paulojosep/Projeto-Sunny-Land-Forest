@@ -24,4 +24,15 @@ public class CenaController : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    public void CenaInicial()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Sair()
+    {
+        Application.Quit();
+        Debug.Break();
+    }
 }
