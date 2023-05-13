@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     public AudioClip fxPulo;
 
+    public ParticleSystem _poeiraSystem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
         if (isGround)
         {
             numberJumps = 0;
+            CriarPoeira();
         }
 
         if (isGround || numberJumps < maxJump)
@@ -90,12 +93,15 @@ public class PlayerController : MonoBehaviour
 
             // Som da coleta da cenoura
             _gameController.fxGame.PlayOneShot(fxPulo);
+
+            CriarPoeira();
         }
         jump = false;
     }
 
     void Flip()
     {
+        CriarPoeira();
         facingRigth = !facingRigth;
         //Vector3 theScale = transform.localScale;
         //theScale.x *= -1; // 1 ou -1
@@ -212,5 +218,10 @@ public class PlayerController : MonoBehaviour
 
         spritePlayer.color = Color.white;
         playerInvensivel = false;
+    }
+
+    void CriarPoeira()
+    {
+        _poeiraSystem.Play();
     }
 }
