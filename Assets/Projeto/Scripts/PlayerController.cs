@@ -133,6 +133,7 @@ public class PlayerController : MonoBehaviour
                 _gameController.Pontuacao(1);
                 Destroy(collision.gameObject);
                 break;
+
             case "Enemy":
                 //Instanciar a animação da explosão
                 GameObject tempExplosao = Instantiate(_gameController.hitPrefab, transform.position, transform.localRotation);
@@ -148,6 +149,10 @@ public class PlayerController : MonoBehaviour
 
                 // Destroi inimigo
                 Destroy(collision.gameObject);
+                break;
+
+            case "Damage":
+                Hurt();
                 break;
         }
     }
